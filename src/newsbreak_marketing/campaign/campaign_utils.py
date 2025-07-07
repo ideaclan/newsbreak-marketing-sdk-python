@@ -7,9 +7,9 @@ from newsbreak_marketing.utils.api_request import request
 from newsbreak_marketing.core.schema import Status
 
 class Campaign(APISession):
-    async def __init__(self, ad_account_id:int|str):
-        super().__init__()
+    async def __init__(self, ad_account_id:int|str,api_version:str|None = None):
         self.ad_account_id: str = str(ad_account_id)
+        self.api_version=api_version
         self.id: str|None = None
         self.org_id: str|None = None
         self.name: str|None = None
@@ -90,15 +90,16 @@ class Campaign(APISession):
 
         return self
 
-    async def get_list(self, campaign_id:int|str,online_statues:List[CampaignOnlineStatus],page_no:int,page_size:int) -> Tuple[List["Campaign"],int,bool]:
+    async def get_list(self, campaign_ids:List[str|int],online_statues:List[CampaignOnlineStatus],page_no:int,page_size:int) -> Tuple[List["Campaign"],int,bool]:
         url = f'{self.api_version}/campaign/getList'
 
         params = [
             ('adAccountId',self.ad_account_id),
-            ('search',campaign_id),
             ('pageNo',page_no),
             ('pageSize',page_size)
-        ] + [('onlineStatus',status.value) for status in online_statues]
+        ] + [('onlineStatus',status.value) for status in online_statues] + [
+            ('search',id) for id in campaign_ids    
+        ]
 
         data = await request('GET', url, self.headers, params=params)
 
@@ -121,3 +122,41 @@ class Campaign(APISession):
             campaigns.append(c)
 
         return campaigns, data['total'], data['hasNext']
+    
+    async def update(self, campaign_id:int|str, name:str) -> "Campaign":
+        url = f'{self.api_version}/campaign/update/{campaign_id}'
+
+        payload = {
+            "name": name
+        }
+
+        data = await request('PUT', url, self.headers, json=payload)
+
+        self.id = data['id']
+        self.org_id = data['orgId']
+        self.name = data['name']
+        self.objective = CampaignObjective(data['objective'])
+        self.budget = data['budget']
+        self.online_status = CampaignOnlineStatus(data['onlineStatus'])
+        self.status = Status(data['status'])
+
+        return self
+    
+    async def update_status(self, campaign_id:int|str,status:Status) -> "Campaign":
+        url = f'{self.api_version}/campaign/updateStatus/{campaign_id}'
+
+        payload = {
+            "status": status.value
+        }
+
+        data = await request('PUT', url, self.headers, json=payload)
+
+        self.id = data['id']
+        self.org_id = data['orgId']
+        self.name = data['name']
+        self.objective = CampaignObjective(data['objective'])
+        self.budget = data['budget']
+        self.online_status = CampaignOnlineStatus(data['onlineStatus'])
+        self.status = Status(data['status'])
+
+        return self
