@@ -6,3 +6,10 @@ class CampaignObjective(str,Enum):
     REACH = "REACH"
     WEB_TRAFFIC = "WEB_TRAFFIC"
     APP_TRAFFIC = "APP_TRAFFIC"
+
+class CampaignOnlineStatus(str,Enum):
+    WARNING = "WARNING"
+    INACTIVE = "INACTIVE"
+    ACTIVE = "ACTIVE"
+    DELETE = "DELETE"
+    DELETED = "DELETED"
