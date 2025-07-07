@@ -1,4 +1,3 @@
-import httpx
 from typing import List, Tuple
 
 from newsbreak_marketing.core.base import APISession
@@ -9,13 +8,16 @@ from newsbreak_marketing.core.schema import Status
 class Campaign(APISession):
     async def __init__(self, ad_account_id:int|str,api_version:str|None = None):
         self.ad_account_id: str = str(ad_account_id)
-        self.api_version=api_version
+        if api_version:
+            self.api_version=api_version
         self.id: str|None = None
         self.org_id: str|None = None
         self.name: str|None = None
         self.objective: CampaignObjective|None = None
         self.status: Status|None = None
-        self.budget = ...
+        self.budget: int|None = None
+        self.online_status: CampaignOnlineStatus|None = None
+        self.status: Status|None = None
 
         self.headers = {
             'Content-Type': 'application/json',

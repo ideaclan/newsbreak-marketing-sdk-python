@@ -1,0 +1,108 @@
+{
+    "bidRate": 900,
+    "budget": 23400,
+    "frequencyCaps": [],
+    "name": "bomb shell",
+    "optimization": true,
+    "targeting": {
+        "location": {
+            "positive": [
+                "1892045343"
+            ],
+            "negative": [
+                "1844211087"
+            ]
+        },
+        "gender": {
+            "positive": [
+                "notdisclosed",
+                "female",
+                "male"
+            ]
+        },
+        "ageGroup": {
+            "positive": [
+                "45-64",
+                "65+"
+            ]
+        },
+        "language": {
+            "positive": [
+                "en_us"
+            ]
+        },
+        "interest": {
+            "positive": [
+                "all"
+            ]
+        },
+        "os": {
+            "positive": [
+                "all"
+            ]
+        },
+        "manufacturer": {
+            "positive": [
+                "all"
+            ]
+        },
+        "carrier": {
+            "positive": [
+                "all"
+            ]
+        },
+        "network": {
+            "positive": [
+                "all"
+            ]
+        },
+        "weather": {
+            "positive": [
+                "all"
+            ]
+        },
+        "brandSafety": {
+            "positive": [
+                "all"
+            ]
+        },
+        "channelId": {
+            "positive": [
+                "all"
+            ]
+        },
+        "contentCategoryName": {
+            "positive": [
+                "all"
+            ]
+        },
+        "docChannelId": {
+            "positive": [
+                "all"
+            ]
+        },
+        "resonate": {
+            "positive": [
+                "all"
+            ]
+        },
+        "userId": {},
+        "deviceLocation": {
+            "positive": [
+                "all"
+            ]
+        }
+    },
+    "deliveryRate": "EVENLY",
+    "startTime": 1752057780,
+    "endTime": 2147483647,
+    "goal": "IMPRESSION",
+    "payBy": "IMPRESSION",
+    "isCpaOrder": false,
+    "cpaOrderRate": null,
+    "roas": null,
+    "budgetType": "DAILY",
+    "version": 1,
+    "status": "ON",
+    "draft": false
+}
