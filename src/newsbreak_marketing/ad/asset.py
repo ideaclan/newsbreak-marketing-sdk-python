@@ -4,7 +4,7 @@ import io
 
 from newsbreak_marketing.utils.api_request import request
 
-async def upload(session, ad_account_id:int|str, media, api_version:str|None = None):
+async def upload(session, ad_account_id:int|str, media:io.IOBase, api_version:str|None = None):
     api_version = api_version or session.api_version
     url = f'{api_version}/ad/uploadAssets'
 
