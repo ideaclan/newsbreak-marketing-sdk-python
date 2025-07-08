@@ -30,10 +30,6 @@ class Campaign(APISession):
         params = [
             ('adAccountId',self.ad_account_id),
             ('search',campaign_id),
-            ('onlineStatus',CampaignOnlineStatus.ACTIVE.value),
-            ('onlineStatus',CampaignOnlineStatus.INACTIVE.value),
-            ('onlineStatus',CampaignOnlineStatus.DELETE.value),
-            ('onlineStatus',CampaignOnlineStatus.WARNING.value),
             ('pageNo',1),
             ('pageSize',1)
         ]
@@ -92,38 +88,6 @@ class Campaign(APISession):
 
         return self
 
-    async def get_list(self, campaign_ids:List[str|int],online_statues:List[CampaignOnlineStatus],page_no:int,page_size:int) -> Tuple[List["Campaign"],int,bool]:
-        url = f'{self.api_version}/campaign/getList'
-
-        params = [
-            ('adAccountId',self.ad_account_id),
-            ('pageNo',page_no),
-            ('pageSize',page_size)
-        ] + [('onlineStatus',status.value) for status in online_statues] + [
-            ('search',id) for id in campaign_ids    
-        ]
-
-        data = await request('GET', url, self.headers, params=params)
-
-        rows = data['rows']
-
-        campaigns = []
-
-        for camp in rows:
-            c = Campaign(self.ad_account_id)
-
-            c.id = camp['id']
-            self.org_id = camp['orgId']
-            self.name = camp['name']
-            self.create_time = camp['createTime']
-            self.update_time = camp['updateTime']
-            self.objective = CampaignObjective(camp['objective'])
-            self.budget = camp['budget']
-            self.status = Status(camp['status'])
-
-            campaigns.append(c)
-
-        return campaigns, data['total'], data['hasNext']
     
     async def update(self, campaign_id:int|str, name:str) -> "Campaign":
         url = f'{self.api_version}/campaign/update/{campaign_id}'

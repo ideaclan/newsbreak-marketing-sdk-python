@@ -84,18 +84,12 @@ class AdSet(APISession):
 
         return self._maker(data)
     
-    async def get(self,id:str):
+    async def get(self,ad_set_id:str):
         url = f'{self.api_version}/ad-set/getList'
 
         params = [
             ('adAccountId',self.ad_account_id),
-            ('search',id),
-            ('onlineStatus',AdSetOnlineStatus.ACTIVE.value),
-            ('onlineStatus',AdSetOnlineStatus.INACTIVE.value),
-            ('onlineStatus',AdSetOnlineStatus.DELETE.value),
-            ('onlineStatus',AdSetOnlineStatus.WARNING.value),
-            ('onlineStatus',AdSetOnlineStatus.COMPLETED.value),
-            ('onlineStatus',AdSetOnlineStatus.READY.value),
+            ('search',ad_set_id),
             ('pageNo',1),
             ('pageSize',1)
         ]
