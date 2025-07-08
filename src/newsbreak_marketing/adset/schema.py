@@ -134,3 +134,11 @@ class Targeting(BaseModel):
     manufacturer: Manufacturer = Manufacturer()
     carrier: Carrier = Carrier()
     network: Network = Network()
+
+class AdSetOnlineStatus(str, Enum):
+    WARNING = "WARNING"
+    INACTIVE = "INACTIVE"
+    ACTIVE = "ACTIVE"
+    DELETE = "DELETE"
+    READY = "READY"
+    COMPLETED = "COMPLETED"

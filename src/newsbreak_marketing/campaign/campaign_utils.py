@@ -6,7 +6,7 @@ from newsbreak_marketing.utils.api_request import request
 from newsbreak_marketing.core.schema import Status
 
 class Campaign(APISession):
-    async def __init__(self, ad_account_id:int|str,api_version:str|None = None):
+    def __init__(self, ad_account_id:int|str,api_version:str|None = None):
         self.ad_account_id: str = str(ad_account_id)
         if api_version:
             self.api_version=api_version
