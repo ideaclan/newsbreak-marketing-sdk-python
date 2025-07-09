@@ -17,7 +17,7 @@ async def upload(session, ad_account_id:int|str, media:io.IOBase, api_version:st
         'adAccountId': ad_account_id
     }
 
-    filename = os.path.basename(media.name)
+    filename = os.path.basename(media.name) #type: ignore
     mime_type, _ = mimetypes.guess_type(filename)
     mime_type = mime_type or "application/octet-stream"
 

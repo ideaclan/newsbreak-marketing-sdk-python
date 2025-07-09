@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 from newsbreak_marketing.core.base import APISession
 from newsbreak_marketing.campaign.schema import CampaignObjective, CampaignOnlineStatus
 from newsbreak_marketing.utils.api_request import request
@@ -23,6 +21,17 @@ class Campaign(APISession):
             'Content-Type': 'application/json',
             'Access-Token': self.access_token
         }
+
+    def _maker(self,data):
+        self.id = data['id']
+        self.org_id = data['orgId']
+        self.name = data['name']
+        self.objective = CampaignObjective(data['objective'])
+        self.budget = data['budget']
+        self.online_status = CampaignOnlineStatus(data['onlineStatus'])
+        self.status = Status(data['status'])
+
+        return self
 
     async def get(self, campaign_id:int|str) -> "Campaign":
         url = f'{self.api_version}/campaign/getList'
@@ -61,16 +70,7 @@ class Campaign(APISession):
 
         data = await request('POST', url, self.headers, json=payloads)
 
-        self.id = data['id']
-        self.org_id = data['orgId']
-        self.name = data['name']
-        self.objective = CampaignObjective(data['objective'])
-        self.budget = data['budget']
-        self.online_status = CampaignOnlineStatus(data['onlineStatus'])
-        self.status = Status(data['status'])
-
-
-        return self
+        return self._maker(data)
     
     
     async def delete(self, campaign_id:int|str) -> "Campaign":
@@ -78,15 +78,7 @@ class Campaign(APISession):
 
         data = await request('DELETE', url, self.headers)
 
-        self.id = data['id']
-        self.org_id = data['orgId']
-        self.name = data['name']
-        self.objective = CampaignObjective(data['objective'])
-        self.budget = data['budget']
-        self.online_status = CampaignOnlineStatus(data['onlineStatus'])
-        self.status = Status(data['status'])
-
-        return self
+        return self._maker(data)
 
     
     async def update(self, campaign_id:int|str, name:str) -> "Campaign":
@@ -98,15 +90,7 @@ class Campaign(APISession):
 
         data = await request('PUT', url, self.headers, json=payload)
 
-        self.id = data['id']
-        self.org_id = data['orgId']
-        self.name = data['name']
-        self.objective = CampaignObjective(data['objective'])
-        self.budget = data['budget']
-        self.online_status = CampaignOnlineStatus(data['onlineStatus'])
-        self.status = Status(data['status'])
-
-        return self
+        return self._maker(data)
     
     async def update_status(self, campaign_id:int|str,status:Status) -> "Campaign":
         url = f'{self.api_version}/campaign/updateStatus/{campaign_id}'
@@ -117,12 +101,4 @@ class Campaign(APISession):
 
         data = await request('PUT', url, self.headers, json=payload)
 
-        self.id = data['id']
-        self.org_id = data['orgId']
-        self.name = data['name']
-        self.objective = CampaignObjective(data['objective'])
-        self.budget = data['budget']
-        self.online_status = CampaignOnlineStatus(data['onlineStatus'])
-        self.status = Status(data['status'])
-
-        return self
+        return self._maker(data)
