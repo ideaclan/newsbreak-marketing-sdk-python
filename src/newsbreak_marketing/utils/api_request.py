@@ -18,6 +18,6 @@ async def request(method:str, url:str, headers:dict, json:dict|None = None, para
         raise APIRequestException(response.get('error'),response.get('status'))
     
     if code != 0:
-        raise APIResponseException(response.get('errMsg'), code)
+        raise APIResponseException(response.get('errList'), code)
 
     return response.get('data')

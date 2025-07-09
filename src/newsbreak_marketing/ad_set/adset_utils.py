@@ -53,8 +53,21 @@ class AdSet(APISession):
         return self
 
 
-    async def create(self, name:str, budget_type:AdSetBudgetType, budget:int, start_time:int, end_time:int, bid_type:AdSetBidType, bit_rate:int, delivery_rate:AdSetDeliveryRate, targeting:Targeting,optimization:bool = True, tracking_id:str|None = None):
-        url = f'{self.api_version}adset/create'
+    async def create(
+            self,
+            name:str,
+            budget_type:AdSetBudgetType,
+            budget:int,
+            start_time:int,
+            end_time:int,
+            bid_type:AdSetBidType,
+            bit_rate:int,
+            delivery_rate:AdSetDeliveryRate,
+            targeting:Targeting,
+            tracking_id:str,
+            optimization:bool = True,
+            ):
+        url = f'{self.api_version}/ad-set/create'
 
         payload = {
             "campaignId": self.campaign_id,
@@ -67,18 +80,16 @@ class AdSet(APISession):
             "bidRate": bit_rate,
             "deliveryRate": delivery_rate.value,
             "optimization": optimization,
-            "targeting": targeting.model_dump(exclude_none=True)
+            "targeting": targeting.model_dump(exclude_none=True),
+            "trackingId": tracking_id
         }
-
-        if tracking_id:
-            payload['trackingId'] = tracking_id
 
         data = await request('POST', url, self.headers, json=payload)
 
         return self._maker(data)
     
     async def delete(self, id:str):
-        url = f'{self.api_version}ad-set/delete/{id}'
+        url = f'{self.api_version}/ad-set/delete/{id}'
 
         data = await request('DELETE', url, self.headers)
 
