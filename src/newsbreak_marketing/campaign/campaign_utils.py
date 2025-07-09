@@ -27,7 +27,7 @@ class Campaign(APISession):
         self.org_id = data['orgId']
         self.name = data['name']
         self.objective = CampaignObjective(data['objective'])
-        self.budget = data['budget']
+        self.budget = data.get('budget')
         self.online_status = CampaignOnlineStatus(data['onlineStatus'])
         self.status = Status(data['status'])
 
@@ -45,22 +45,14 @@ class Campaign(APISession):
 
         data = await request('GET', url, self.headers, params=params)
 
-        camp = data['rows'][0]
+        camp = data['list'][0]
 
-        self.org_id = camp['orgId']
-        self.name = camp['name']
-        self.create_time = camp['createTime']
-        self.update_time = camp['updateTime']
-        self.objective = CampaignObjective(camp['objective'])
-        self.budget = camp['budget']
-        self.status = Status(camp['status'])
-
-        return self
+        return self._maker(camp)
         
         
 
     async def create(self,name:str, ad_account_id:int|str, objective:CampaignObjective) -> "Campaign":
-        url = f'{self.api_version}campaign/create'
+        url = f'{self.api_version}/campaign/create'
 
         payloads = {
             "name": name,
