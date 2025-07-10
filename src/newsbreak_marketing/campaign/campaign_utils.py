@@ -4,6 +4,28 @@ from newsbreak_marketing.utils.api_request import request
 from newsbreak_marketing.core.schema import Status
 
 class Campaign(APISession):
+    """This is child class `APISession` used to create a campaign object
+
+    ### Args:
+        - `ad_account_id` (int|str): Ad account id given by Newsbreak
+        - `api_version` Optional(str): API version want to use or same as in `APISession`
+
+    ### Attributes:
+        - `id` (str|None): Campaign id
+        - `org_id` (str|None): Organization id
+        - `name` (str|None): Campaign name
+        - `objective` (CampaignObjective|None): Campaign objective
+        - `budget` (int|None): Campaign budget
+        - `online_status` (CampaignOnlineStatus|None): Campaign online status
+        - `status` (Status|None): Campaign status
+
+    ### Functions:
+        - `create`: For creating a campaign
+        - `delete`: For deleting a campaign
+        - `update`: For updating a campaign
+        - `update_status`: For updating campaign status
+        - `get`: For getting a campaign details
+    """
     def __init__(self, ad_account_id:int|str,api_version:str|None = None):
         self.ad_account_id: str = str(ad_account_id)
         if api_version:
@@ -34,6 +56,15 @@ class Campaign(APISession):
         return self
 
     async def get(self, campaign_id:int|str) -> "Campaign":
+        """For getting campaign details
+
+        ### Args:
+            - `campaign_id` (int|str): Campaign id
+
+        ### Returns:
+            - `Campaign`: A campaign object
+
+        """
         url = f'{self.api_version}/campaign/getList'
 
         params = [
@@ -52,6 +83,16 @@ class Campaign(APISession):
         
 
     async def create(self,name:str, ad_account_id:int|str, objective:CampaignObjective) -> "Campaign":
+        """For creating a campaign
+
+        ### Args:
+            - `name` (str): Campaign name
+            - `ad_account_id` (int|str): Ad account id given by Newsbreak
+            - `objective` (CampaignObjective): Campaign objective
+
+        ### Returns:
+            - `Campaign`: A campaign object
+        """
         url = f'{self.api_version}/campaign/create'
 
         payloads = {
@@ -66,6 +107,14 @@ class Campaign(APISession):
     
     
     async def delete(self, campaign_id:int|str) -> "Campaign":
+        """For deleting a campaign
+
+        ### Args:
+            - `campaign_id` (int|str): Campaign id
+
+        ### Returns:
+            - `Campaign`: A campaign object
+        """
         url = f'{self.api_version}/campaign/delete/{campaign_id}'
 
         data = await request('DELETE', url, self.headers)
@@ -74,6 +123,15 @@ class Campaign(APISession):
 
     
     async def update(self, campaign_id:int|str, name:str) -> "Campaign":
+        """For Updating a campaign
+
+        ### Args:
+            - `campaign_id` (int|str): Campaign id
+            - `name` (str): Campaign name
+
+        ### Returns:
+            - `Campaign`: A campaign object
+        """
         url = f'{self.api_version}/campaign/update/{campaign_id}'
 
         payload = {
@@ -85,6 +143,16 @@ class Campaign(APISession):
         return self._maker(data)
     
     async def update_status(self, campaign_id:int|str,status:Status) -> "Campaign":
+        """
+        For updating campaign status
+
+        ### Args:
+            - `campaign_id` (int|str): Campaign id
+            - `status` (Status): Campaign status
+
+        ### Returns:
+            - `Campaign`: A campaign object
+        """
         url = f'{self.api_version}/campaign/updateStatus/{campaign_id}'
 
         payload = {
