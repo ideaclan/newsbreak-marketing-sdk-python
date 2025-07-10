@@ -35,7 +35,7 @@ class Ad(APISession):
         self.click_tracking_url = data.get('clickTrackingUrl')
         self.impression_tracking_url = data.get('impressionTrackingUrl')
         self.status = Status(data['status'])
-        self.audit_status = data['auditStatus']
+        self.audit_status = AdAuditStatus(data['auditStatus'])
         self.status_txt = data.get('statusTxt')
         if data.get('creative'):
             self.creative = Creative(**data['creative'])

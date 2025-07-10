@@ -4,6 +4,38 @@ from newsbreak_marketing.core.schema import Status
 from newsbreak_marketing.ad_set.schema import AdSetBudgetType, AdSetBidType, AdSetDeliveryRate, Targeting, AdSetOnlineStatus
 
 class AdSet(APISession):
+    """
+    This is child class `APISession` used to create a adSet object. A campaign is need for creating an adSet
+
+    ### Args:
+        - `ad_account_id` (int|str): Ad account id given by Newsbreak
+        - `campaign_id` (int|str): Campaign id
+        - `api_version` Optional(str): API version want to use or same as in `APISession`
+
+    ### Attributes:
+        - `id` (str|None): AdSet id
+        - `org_id` (str|None): Organization id
+        - `name` (str|None): AdSet name
+        - `tracking_id` (str|None): AdSet tracking id
+        - `budget` (int|None): AdSet budget
+        - `status` (Status|None): AdSet status
+        - `budget_type` (AdSetBudgetType|None): AdSet budget type
+        - `start_time` (int|None): AdSet start time
+        - `end_time` (int|None): AdSet end time
+        - `schedule` (dict|None): AdSet schedule
+        - `bid_type` (AdSetBidType|None): AdSet bid type
+        - `bid_rate` (int|None): AdSet bid rate
+        - `delivery_rate` (AdSetDeliveryRate|None): AdSet delivery rate
+        - `optimization` (bool|None): AdSet optimization
+        - `targeting` (Targeting|None): AdSet targeting
+
+    ### Functions:
+        - `create`: For creating a adSet
+        - `delete`: For deleting a adSet
+        - `update`: For updating a adSet
+        - `update_status`: For updating adSet status
+        - `get`: For getting a adSet details
+    """
     def __init__(self, campaign_id:int|str , ad_account_id:str, api_version:str|None = None):
         self.campaign_id: str = str(campaign_id)
         if api_version:
@@ -67,6 +99,25 @@ class AdSet(APISession):
             tracking_id:str,
             optimization:bool = True,
             ):
+        """
+        For creating a adSet
+
+        ### Args:
+            - `name` (str): AdSet name
+            - `budget_type` (AdSetBudgetType): AdSet budget type
+            - `budget` (int): AdSet budget
+            - `start_time` (int): AdSet start time
+            - `end_time` (int): AdSet end time
+            - `bid_type` (AdSetBidType): AdSet bid type
+            - `bit_rate` (int): AdSet bid rate
+            - `delivery_rate` (AdSetDeliveryRate): AdSet delivery rate
+            - `targeting` (Targeting): AdSet targeting
+            - `tracking_id` (str): AdSet tracking id
+            - `optimization` Optional(bool): AdSet optimization
+
+        ### Returns:
+            - `AdSet`: A adSet object
+        """
         url = f'{self.api_version}/ad-set/create'
 
         payload = {
@@ -88,14 +139,32 @@ class AdSet(APISession):
 
         return self._maker(data)
     
-    async def delete(self, id:str):
-        url = f'{self.api_version}/ad-set/delete/{id}'
+    async def delete(self, ad_set_id:str):
+        """
+        For deleting a adSet
+
+        ### Args:
+            - `ad_set_id` (str): AdSet id
+
+        ### Returns:
+            - `AdSet`: A adSet object
+        """
+        url = f'{self.api_version}/ad-set/delete/{ad_set_id}'
 
         data = await request('DELETE', url, self.headers)
 
         return self._maker(data)
     
     async def get(self,ad_set_id:str):
+        """
+        For getting adSet details
+
+        ### Args:
+            -`ad_set_id` (str): AdSet id
+        ### Returns:
+            -`AdSet`: A adSet object
+         
+        """
         url = f'{self.api_version}/ad-set/getList'
 
         params = [
@@ -107,11 +176,23 @@ class AdSet(APISession):
         
         data = await request('GET', url, self.headers, params=params)
 
-        ad_set = data['rows'][0]
+        ad_set = data['list'][0]
 
         return self._maker(ad_set)
     
-    async def update_status(self, status:Status):
+    async def update_status(self,ad_set_id:str, status:Status):
+        """
+        For updating adSet status
+
+        ### Args:
+            - `ad_set_id` (str): AdSet id
+            - `status` (Status): AdSet status
+
+        ### Returns:
+            - `AdSet`: A adSet object
+        """
+        self.id = ad_set_id
+
         url = f'{self.api_version}/ad-set/updateStatus/{self.id}'
 
         payload = {
@@ -122,7 +203,40 @@ class AdSet(APISession):
 
         return self._maker(data)
     
-    async def update(self, ad_set_id:str, name:str, budget_type:AdSetBudgetType, budget:int, start_time:int, end_time:int, bid_type:AdSetBidType, bit_rate:int, delivery_rate:AdSetDeliveryRate, targeting:Targeting,optimization:bool = True, tracking_id:str|None = None):
+    async def update(self,
+                     ad_set_id:str,
+                     name:str,
+                     budget_type:AdSetBudgetType,
+                     budget:int,
+                     start_time:int,
+                     end_time:int,
+                     bid_type:AdSetBidType,
+                     bit_rate:int,
+                     delivery_rate:AdSetDeliveryRate,
+                     tracking_id:str,
+                     targeting:Targeting,
+                     optimization:bool = True
+                     ):
+        """
+        For updating a adSet
+        
+        ### Args:
+            - `ad_set_id` (str): AdSet id
+            - `name` (str): AdSet name
+            - `budget_type` (AdSetBudgetType): AdSet budget type
+            - `budget` (int): AdSet budget
+            - `start_time` (int): AdSet start time
+            - `end_time` (int): AdSet end time
+            - `bid_type` (AdSetBidType): AdSet bid type
+            - `bit_rate` (int): AdSet bid rate
+            - `delivery_rate` (AdSetDeliveryRate): AdSet delivery rate
+            - `tracking_id` (str): AdSet tracking id
+            - `targeting` (Targeting): AdSet targeting
+            - `optimization` Optional(bool): AdSet optimization
+
+        ### Returns:
+            - `AdSet`: A adSet object
+        """
         url = f'{self.api_version}/ad-set/update/{ad_set_id}'
 
         payload = {

@@ -3,30 +3,48 @@ from pydantic import BaseModel, model_validator, field_validator
 from typing import List, Optional
 
 class AdSetBudgetType(str, Enum):
+    """
+    Budget Types of AdSet
+    """
     DAILY = "DAILY"
     TOTAL = "TOTAL"
 
 class AdSetBidType(str, Enum):
+    """
+    Types of Bid on AdSet
+    """
     CPM = "CPM"
     CPC = "CPC"
     TARGET_CPA = "TARGET_CPA"
     MAX_CONVERSION = "MAX_CONVERSION"
 
 class AdSetDeliveryRate(str, Enum):
+    """
+    Types of Delivery Rate
+    """
     EVENLY = "EVENLY"
     ASAP = "ASAP"
 
 class Location(BaseModel):
+    """
+    For Selecting Location to include
+    """
     positive: Optional[List[str]] = ['all']
     negative: Optional[List[str]] = None
 
 class GenderType(str, Enum):
+    """
+    Types of Genders
+    """
     ND = 'notdisclosed'
     MALE = 'male'
     FEMALE = 'female'
     ALL = 'all'
 
 class Gender(BaseModel):
+    """
+    For Selecting Gender to include
+    """
     positive: Optional[List[GenderType]] = [GenderType.ALL]
 
     @field_validator('positive')
@@ -36,6 +54,9 @@ class Gender(BaseModel):
         return value
     
 class AgeType(str,Enum):
+    """
+    Types of Age Groups
+    """
     ALL = 'all'
     A18_30 = '18-30'
     A31_44 = '31-44'
@@ -43,6 +64,9 @@ class AgeType(str,Enum):
     A65P = '65+'
 
 class AgeGroup(BaseModel):
+    """
+    For Selecting Age Group to include
+    """
     positive: Optional[List[AgeType]] = [AgeType.ALL]
 
     @field_validator('positive')
@@ -52,11 +76,17 @@ class AgeGroup(BaseModel):
         return value
 
 class LanguageType(str,Enum):
+    """
+    Types of Languages
+    """
     ALL = 'all'
     EN_US = 'en_us'
     ES_US = 'es_us'
 
 class Language(BaseModel):
+    """
+    For Selecting Language to include
+    """
     positive: Optional[List[LanguageType]] = [LanguageType.ALL]
 
     @field_validator('positive')
@@ -66,9 +96,15 @@ class Language(BaseModel):
         return value
     
 class InterestType(str,Enum):
+    """
+    Types of Interests
+    """
     ALL = 'all'
 
 class Interest(BaseModel):
+    """
+    For Selecting Interest to include
+    """
     positive: Optional[List[InterestType]] = [InterestType.ALL]
 
     @field_validator('positive')
@@ -78,9 +114,15 @@ class Interest(BaseModel):
         return value
     
 class OSType(str,Enum):
+    """
+    Types of OS
+    """
     ALL = 'all'
 
 class OS(BaseModel):
+    """
+    For Selecting OS to include
+    """
     positive: Optional[List[OSType]] = [OSType.ALL]
 
     @field_validator('positive')
@@ -89,9 +131,15 @@ class OS(BaseModel):
             return [OSType.ALL]
         return value
 class ManufacturerType(str,Enum):
+    """
+    Types of Manufacturer
+    """
     ALL = 'all'
 
 class Manufacturer(BaseModel):
+    """
+    For Selecting Manufacturer to include
+    """
     positive: Optional[List[ManufacturerType]] = [ManufacturerType.ALL]
 
     @field_validator('positive')
@@ -101,9 +149,15 @@ class Manufacturer(BaseModel):
         return value
     
 class CarrierType(str,Enum):
+    """
+    Type of carrier
+    """
     ALL = 'all'
 
 class Carrier(BaseModel):
+    """
+    For selecting carrier to include
+    """
     positive: Optional[List[CarrierType]] = [CarrierType.ALL]
 
     @field_validator('positive')
@@ -113,9 +167,15 @@ class Carrier(BaseModel):
         return value
     
 class NetworkType(str,Enum):
+    """
+    Type of Network
+    """
     ALL = 'all'
 
 class Network(BaseModel):
+    """
+    For Selecting Network to include
+    """
     positive: Optional[List[NetworkType]] = [NetworkType.ALL]
 
     @field_validator('positive')
@@ -125,6 +185,11 @@ class Network(BaseModel):
         return value
 
 class Targeting(BaseModel):
+    """
+    Targeting for an ad set
+
+    #### By Default All will be included
+    """
     location: Optional[Location] = Location()
     gender: Optional[Gender]= Gender()
     age_group: AgeGroup = AgeGroup()
@@ -136,6 +201,9 @@ class Targeting(BaseModel):
     network: Network = Network()
 
 class AdSetOnlineStatus(str, Enum):
+    """
+    Online status of an ad set
+    """
     WARNING = "WARNING"
     INACTIVE = "INACTIVE"
     ACTIVE = "ACTIVE"
