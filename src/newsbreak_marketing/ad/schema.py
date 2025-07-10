@@ -3,6 +3,9 @@ from enum import Enum
 from typing import Optional
 
 class CreativeType(str,Enum):
+    """
+    Types of Creative
+    """
     IMAGE = "IMAGE"
     VIDEO = "VIDEO"
     GIF = "GIF"
@@ -13,6 +16,9 @@ def to_camel(string: str) -> str:
 
 
 class CreativeContent(BaseModel):
+    """
+    Content of Creative
+    """
     headline: str
     asset_url: str
     height: Optional[int] = None
@@ -30,6 +36,9 @@ class CreativeContent(BaseModel):
         extra = "ignore"  # <-- This allows extra fields in input and ignores them
 
 class Creative(BaseModel):
+    """
+    Creative of an Ad
+    """
     type: CreativeType
     content: CreativeContent
 
@@ -39,6 +48,9 @@ class Creative(BaseModel):
         extra = "ignore"  # <-- This allows extra fields in input and ignores them
 
 class AdAuditStatus(str,Enum):
+    """
+    Audit status of Ad
+    """
     PENDING = "PENDING"
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"

@@ -8,6 +8,34 @@ from newsbreak_marketing.utils.api_request import request
 
 
 class Ad(APISession):
+    """
+    This for creating Ad object
+
+    ### Args:
+        - `ad_set_id` (str): AdSet id
+        - `ad_account_id` (str): Ad account id
+        - `api_version` Optional(str): API version want to use or same as in `APISession`
+
+    ### Attributes:
+        - `id` (str|None): Ad id
+        - `name` (str|None): Ad name
+        - `ad_account_id` (str): Ad account id
+        - `campaign_id` (str|None): Campaign id
+        - `ad_set_id` (str): AdSet id
+        - `click_tracking_url` (List[str]|None): Click tracking url
+        - `impression_tracking_url` (List[str]|None): Impression tracking url
+        - `status` (Status|None): Ad status
+        - `audit_status` (AdAuditStatus|None): Ad audit status
+        - `status_txt` (str|None): Ad status text
+        - `creative` (Creative|None): Ad creative
+
+    ### Functions:
+        - `create`: For creating an ad
+        - `update`: For updating an ad
+        - `update_status`: For updating ad status
+        - `delete`: For deleting an ad
+        - `get`: For getting an ad
+    """
     def __init__(self, ad_set_id:str, ad_account_id:str, api_version:str|None = None):
         if api_version:
             self.api_version = api_version
@@ -61,6 +89,28 @@ class Ad(APISession):
             click_tracking_url:List[str]|None = None,
             impression_tracking_url:List[str]|None = None
             ):
+        """
+        For creating an ad
+
+        ### Args:
+            - `name` (str): Ad name
+            - `type` (CreativeType): Ad creative type
+            - `headline` (str): Ad creative headline
+            - `asset_ulr` (str): Ad creative asset url
+            - `description` (str): Ad creative description
+            - `call_to_action` (str): Ad creative call to action
+            - `brand_name` (str): Ad creative brand name
+            - `click_through_url` (str): Ad creative click through url
+            - `height` (int|None): Ad creative height, only when Ad type `CreativeType.VIDEO` 
+            - `width` (int|None): Ad creative width, only when Ad type `CreativeType.VIDEO` 
+            - `logo_url` Optional(str|None): Ad creative logo url
+            - `cover_url` (str|None): Ad creative cover url, only when Ad type `CreativeType.VIDEO` 
+            - `click_tracking_url` Optional(List[str]|None): Click tracking url
+            - `impression_tracking_url` Optional(List[str]|None): Impression tracking url
+
+        ### Returns:
+            - `Ad`: Ad
+        """
         
         if type == CreativeType.VIDEO:
             if height is None or width is None or cover_url is None:
@@ -101,19 +151,37 @@ class Ad(APISession):
 
         return self._maker(data)
     
-    async def delete(self,id:str):
-        url = f'{self.api_version}/ad/delete/{id}'
+    async def delete(self,ad_id:str):
+        """
+        For deleting an ad
+
+        ### Args:
+            - `ad_id` (str): Ad id
+
+        ### Returns:
+            - `Ad`: A ad object
+        """
+        url = f'{self.api_version}/ad/delete/{ad_id}'
 
         data = await request('DELETE', url, self.headers)
 
         return self._maker(data)
 
-    async def get(self, id:str):
+    async def get(self, ad_id:str):
+        """
+        For getting an Ad
+
+        ### Args:
+            - `ad_id` (str): Ad id
+
+        ### Returns:
+            - `Ad`: A ad object
+        """
         url = f'{self.api_version}/ad/getList'
 
         params = [
             ('adAccountId',self.ad_account_id),
-            ('search',id),
+            ('search',ad_id),
             ('pageNo',1),
             ('pageSize',1)
         ]
@@ -124,8 +192,18 @@ class Ad(APISession):
 
         return self._maker(ad)
 
-    async def update_status(self,id:str, status:Status):
-        url = f'{self.api_version}/ad/updateStatus/{id}'
+    async def update_status(self,ad_id:str, status:Status):
+        """
+        For updating Ad status
+
+        ### Args:
+            - `ad_id` (str): Ad id
+            - `status` (Status): Ad status
+
+        ### Returns:
+            - `Ad`: A ad object
+        """
+        url = f'{self.api_version}/ad/updateStatus/{ad_id}'
 
         payload = {
             "status": status.value
@@ -153,6 +231,29 @@ class Ad(APISession):
             click_tracking_url:List[str]|None = None,
             impression_tracking_url:List[str]|None = None,
             ):
+        """
+        For updating an Ad
+
+        ### Args:
+            - `ad_id` (str): Ad id
+            - `name` (str): Ad name
+            - `type` (CreativeType): Ad creative type
+            - `headline` (str): Ad creative headline
+            - `asset_ulr` (str): Ad creative asset url
+            - `description` (str): Ad creative description
+            - `call_to_action` (str): Ad creative call to action
+            - `brand_name` (str): Ad creative brand name
+            - `click_through_url` (str): Ad creative click through url
+            - `height` (int|None): Ad creative height, only when Ad type `CreativeType.VIDEO` 
+            - `width` (int|None): Ad creative width, only when Ad type `CreativeType.VIDEO` 
+            - `cover_url` (str|None): Ad creative cover url, only when Ad type `CreativeType.VIDEO` 
+            - `logo_url` Optional(str|None): Ad creative logo url
+            - `click_tracking_url` Optional(List[str]|None): Ad creative click tracking url
+            - `impression_tracking_url` Optional(List[str]|None): Ad creative impression tracking url
+
+        ### Returns:
+            - `Ad`: A ad object
+        """
         
         if type == CreativeType.VIDEO:
             if height is None or width is None or cover_url is None:
