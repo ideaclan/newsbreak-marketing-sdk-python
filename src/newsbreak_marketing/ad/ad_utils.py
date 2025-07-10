@@ -137,6 +137,7 @@ class Ad(APISession):
     
     async def update(
             self,
+            ad_id:str,
             name:str,
             type:CreativeType,
             headline:str,
@@ -157,7 +158,7 @@ class Ad(APISession):
             if height is None or width is None or cover_url is None:
                 raise ValueError('height and width are required for video creative')
             
-        url = f'{self.api_version}/ad/update/{self.id}'
+        url = f'{self.api_version}/ad/update/{ad_id}'
 
         payloads = {
             "name": name,
