@@ -21,12 +21,12 @@ class CreativeContent(BaseModel):
     description: str
     call_to_action: str
     brand_name: str
-    logo_url: str
+    logo_url: Optional[str] = None
     click_through_url: str
 
     class Config:
         alias_generator = to_camel
-        allow_population_by_field_name = True # <-- This allows keeping the original field name
+        validate_by_name = True # <-- This allows keeping the original field name
         extra = "ignore"  # <-- This allows extra fields in input and ignores them
 
 class Creative(BaseModel):
@@ -35,7 +35,7 @@ class Creative(BaseModel):
 
     class Config:
         alias_generator = to_camel
-        allow_population_by_field_name = True # <-- This allows keeping the original field name
+        validate_by_name = True # <-- This allows keeping the original field name
         extra = "ignore"  # <-- This allows extra fields in input and ignores them
 
 class AdAuditStatus(str,Enum):

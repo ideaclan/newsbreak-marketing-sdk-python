@@ -1,7 +1,7 @@
 from typing import List
 
 from newsbreak_marketing.core.base import APISession
-from newsbreak_marketing.ad.schema import Creative, AdAuditStatus, CreativeType, CreativeContent, AdAuditStatus
+from newsbreak_marketing.ad.schema import Creative, AdAuditStatus, CreativeType, AdAuditStatus
 from newsbreak_marketing.core.schema import Status
 from newsbreak_marketing.utils.api_request import request
 
@@ -9,7 +9,8 @@ from newsbreak_marketing.utils.api_request import request
 
 class Ad(APISession):
     def __init__(self, ad_set_id:str, ad_account_id:str, api_version:str|None = None):
-        super().__init__( api_version)
+        if api_version:
+            self.api_version = api_version
         self.id: str|None = None
         self.name : str|None = None
         self.ad_account_id: str = ad_account_id
@@ -31,7 +32,7 @@ class Ad(APISession):
         self.id = data['id']
         self.name = data['name']
         self.campaign_id = data['campaignId']
-        self.click_tracking_url = data['clickTrackingUrl']
+        self.click_tracking_url = data.get('clickTrackingUrl')
         self.impression_tracking_url = data.get('impressionTrackingUrl')
         self.status = Status(data['status'])
         self.audit_status = data['auditStatus']
@@ -46,19 +47,19 @@ class Ad(APISession):
     async def create(
             self,
             name:str,
-            click_tracking_url:List[str],
-            impression_tracking_url:List[str],
             type:CreativeType,
             headline:str,
             asset_ulr:str,
             description:str,
             call_to_action:str,
             brand_name:str,
-            logo_url:str,
             click_through_url:str,
             height:int|None = None,
             width:int|None = None,
-            cover_url:str|None = None
+            logo_url:str|None = None,
+            cover_url:str|None = None,
+            click_tracking_url:List[str]|None = None,
+            impression_tracking_url:List[str]|None = None
             ):
         
         if type == CreativeType.VIDEO:
@@ -77,12 +78,24 @@ class Ad(APISession):
                 "callToAction": call_to_action,
                 "brandName": brand_name,
                 "clickThroughUrl": click_through_url,
-                "type": type.value,
-                "logoUrl": logo_url
-            },
-            "clickTrackingUrl": click_tracking_url,
-            "impressionTrackingUrl": impression_tracking_url
+                "type": type.value
+            }
         }
+
+        if height:
+            payloads['creative']['height'] = height
+        if width:
+            payloads['creative']['width'] = width
+        if logo_url:
+            payloads['creative']['logoUrl'] = logo_url
+        if cover_url:
+            payloads['creative']['coverUrl'] = cover_url
+        if logo_url:
+            payloads['creative']['logoUrl'] = logo_url
+        if click_tracking_url:
+            payloads['clickTrackingUrl'] = click_tracking_url
+        if impression_tracking_url:
+            payloads['impressionTrackingUrl'] = impression_tracking_url
 
         data = await request('POST', url, self.headers, json=payloads)
 
@@ -125,19 +138,19 @@ class Ad(APISession):
     async def update(
             self,
             name:str,
-            click_tracking_url:List[str],
-            impression_tracking_url:List[str],
             type:CreativeType,
             headline:str,
             asset_ulr:str,
             description:str,
             call_to_action:str,
             brand_name:str,
-            logo_url:str,
             click_through_url:str,
             height:int|None = None,
             width:int|None = None,
-            cover_url:str|None = None
+            cover_url:str|None = None,
+            logo_url:str|None = None,
+            click_tracking_url:List[str]|None = None,
+            impression_tracking_url:List[str]|None = None,
             ):
         
         if type == CreativeType.VIDEO:
@@ -155,12 +168,22 @@ class Ad(APISession):
                 "callToAction": call_to_action,
                 "brandName": brand_name,
                 "clickThroughUrl": click_through_url,
-                "type": type.value,
-                "logoUrl": logo_url
-            },
-            "clickTrackingUrl": click_tracking_url,
-            "impressionTrackingUrl": impression_tracking_url
+                "type": type.value
+            }
         }
+
+        if height:
+            payloads['creative']['height'] = height
+        if width:
+            payloads['creative']['width'] = width
+        if cover_url:
+            payloads['creative']['coverUrl'] = cover_url
+        if logo_url:
+            payloads['creative']['logoUrl'] = logo_url
+        if click_tracking_url:
+            payloads['clickTrackingUrl'] = click_tracking_url
+        if impression_tracking_url:
+            payloads['impressionTrackingUrl'] = impression_tracking_url
 
         data = await request('PUT', url, self.headers, json=payloads)
 
