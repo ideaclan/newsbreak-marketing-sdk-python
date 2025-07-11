@@ -121,7 +121,7 @@ class Campaign(APISession):
         return self._maker(data)
 
     
-    async def update(self, campaign_id:int|str, name:str) -> "Campaign":
+    async def update(self, campaign_id:str, name:str) -> "Campaign":
         """For Updating a campaign
 
         ### Args:

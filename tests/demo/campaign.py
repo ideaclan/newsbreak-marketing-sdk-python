@@ -27,6 +27,28 @@ class SMCampaign:
             online_status=camp.online_status,
             status=camp.status
         )
+    
+    @strawberry.mutation
+    async def updateCampaign(
+        self,
+        account_id:str,
+        campaign_id:str,
+        name:str
+    )-> STCampaign:
+        camp = Campaign(ad_account_id=account_id)
 
+        camp = await camp.update(
+            campaign_id=campaign_id,
+            name=name
+        )
+
+        return STCampaign(
+            id=camp.id, # type: ignore
+            org_id=camp.org_id, # type: ignore
+            name=camp.name, # type: ignore
+            objective=camp.objective,
+            online_status=camp.online_status,
+            status=camp.status
+        )
 
         
