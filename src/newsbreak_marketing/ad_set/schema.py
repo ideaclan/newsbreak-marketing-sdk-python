@@ -1,6 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, model_validator, field_validator
-from typing import List, Optional
+from typing import List
 
 class AdSetBudgetType(str, Enum):
     """
@@ -29,8 +29,8 @@ class Location(BaseModel):
     """
     For Selecting Location to include
     """
-    positive: Optional[List[str]] = ['all']
-    negative: Optional[List[str]] = None
+    positive: List[str] = ['all']
+    negative: List[str] = []
 
 class GenderType(str, Enum):
     """
@@ -45,7 +45,7 @@ class Gender(BaseModel):
     """
     For Selecting Gender to include
     """
-    positive: Optional[List[GenderType]] = [GenderType.ALL]
+    positive: List[GenderType] = [GenderType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[GenderType])->List[GenderType]: #type: ignore
@@ -67,7 +67,7 @@ class AgeGroup(BaseModel):
     """
     For Selecting Age Group to include
     """
-    positive: Optional[List[AgeType]] = [AgeType.ALL]
+    positive: List[AgeType] = [AgeType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[AgeType])->List[AgeType]: #type: ignore
@@ -87,7 +87,7 @@ class Language(BaseModel):
     """
     For Selecting Language to include
     """
-    positive: Optional[List[LanguageType]] = [LanguageType.ALL]
+    positive: List[LanguageType] = [LanguageType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[LanguageType])->List[LanguageType]: #type: ignore
@@ -105,7 +105,7 @@ class Interest(BaseModel):
     """
     For Selecting Interest to include
     """
-    positive: Optional[List[InterestType]] = [InterestType.ALL]
+    positive: List[InterestType] = [InterestType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[InterestType])->List[InterestType]: #type: ignore
@@ -123,7 +123,7 @@ class OS(BaseModel):
     """
     For Selecting OS to include
     """
-    positive: Optional[List[OSType]] = [OSType.ALL]
+    positive: List[OSType] = [OSType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[OSType])->List[OSType]: #type: ignore
@@ -140,7 +140,7 @@ class Manufacturer(BaseModel):
     """
     For Selecting Manufacturer to include
     """
-    positive: Optional[List[ManufacturerType]] = [ManufacturerType.ALL]
+    positive: List[ManufacturerType] = [ManufacturerType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[ManufacturerType])->List[ManufacturerType]: #type: ignore
@@ -158,7 +158,7 @@ class Carrier(BaseModel):
     """
     For selecting carrier to include
     """
-    positive: Optional[List[CarrierType]] = [CarrierType.ALL]
+    positive: List[CarrierType] = [CarrierType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[CarrierType])->List[CarrierType]: #type: ignore
@@ -176,7 +176,7 @@ class Network(BaseModel):
     """
     For Selecting Network to include
     """
-    positive: Optional[List[NetworkType]] = [NetworkType.ALL]
+    positive: List[NetworkType] = [NetworkType.ALL]
 
     @field_validator('positive')
     def enforce_all_only(value:List[NetworkType])->List[NetworkType]: #type: ignore
@@ -190,8 +190,8 @@ class Targeting(BaseModel):
 
     #### By Default All will be included
     """
-    location: Optional[Location] = Location()
-    gender: Optional[Gender]= Gender()
+    location: Location = Location()
+    gender: Gender = Gender()
     age_group: AgeGroup = AgeGroup()
     language: Language = Language()
     interest: Interest = Interest() 
