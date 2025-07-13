@@ -56,6 +56,8 @@ def model_to_dataclass(model):
             
             _data_fields.append(_data_field)
         return strawberry.input(make_dataclass(model.__name__, _data_fields))
+    else:
+        raise TypeError(f"{model} is not a valid Pydantic model or type for conversion to dataclass.")
     
 
 tar = model_to_dataclass(Targeting)
