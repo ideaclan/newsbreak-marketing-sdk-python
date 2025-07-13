@@ -32,6 +32,6 @@ class STAdSet:
     delivery_rate: strawberry.enum(AdSetDeliveryRate) # type: ignore
     optimization: bool
     status: strawberry.enum(Status) # type: ignore
-    targeting: strawberry.enum(Targeting) # type: ignore
+    # targeting: strawberry.enum(Targeting) # type: ignore
 
 

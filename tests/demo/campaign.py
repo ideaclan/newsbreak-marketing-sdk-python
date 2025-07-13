@@ -1,7 +1,11 @@
 import strawberry
 from newsbreak_marketing.campaign import Campaign, CampaignObjective
 from newsbreak_marketing import Status
-from .schema import STCampaign
+from schema import STCampaign
+
+@strawberry.input
+class stp:
+    name:str = 'sam'
 
 @strawberry.type
 class SMCampaign:
@@ -11,7 +15,8 @@ class SMCampaign:
         self,
         name:str,
         ad_account_id:str,
-        objective:strawberry.enum(CampaignObjective) # type: ignore
+        objective:strawberry.enum(CampaignObjective), # type: ignore
+        inp:stp
     )-> STCampaign:
         camp = Campaign(ad_account_id=ad_account_id)
 
