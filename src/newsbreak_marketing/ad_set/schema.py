@@ -2,6 +2,10 @@ from enum import Enum
 from pydantic import BaseModel, model_validator, field_validator
 from typing import List
 
+def to_camel(string: str) -> str:
+    parts = string.split('_')
+    return parts[0] + ''.join(word.capitalize() for word in parts[1:])
+
 class AdSetBudgetType(str, Enum):
     """
     Budget Types of AdSet
@@ -199,6 +203,12 @@ class Targeting(BaseModel):
     manufacturer: Manufacturer = Manufacturer()
     carrier: Carrier = Carrier()
     network: Network = Network()
+
+    class Config:
+        alias_generator = to_camel
+        validate_by_name = True # <-- This allows keeping the original field name
+        extra = "ignore"  # <-- This allows extra fields in input and ignores them
+
 
 class AdSetOnlineStatus(str, Enum):
     """

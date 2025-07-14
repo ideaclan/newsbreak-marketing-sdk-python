@@ -131,7 +131,7 @@ class AdSet(APISession):
             "bidRate": bit_rate,
             "deliveryRate": delivery_rate.value,
             "optimization": optimization,
-            "targeting": targeting.model_dump(exclude_none=True),
+            "targeting": targeting.model_dump(exclude_none=True, by_alias=True),
             "trackingId": tracking_id
         }
 
@@ -250,9 +250,9 @@ class AdSet(APISession):
             "bidRate": bit_rate,
             "deliveryRate": delivery_rate.value,
             "optimization": optimization,
-            "targeting": targeting.model_dump(exclude_none=True)
+            "targeting": targeting.model_dump(exclude_none=True, by_alias=True)
         }
-
+        print(f"Payload for update: {payload}")
         if tracking_id:
             payload['trackingId'] = tracking_id
 
