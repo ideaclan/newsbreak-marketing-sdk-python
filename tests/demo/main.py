@@ -5,7 +5,7 @@ import uvicorn
 
 from campaign import SMCampaign, SQCampaign
 from ad_set import SMAdSet, SQAdSet
-from ad import SMAd
+from ad import SMAd, SQAd
 
 session = APISession(access_token='3d8a7a49-bb3e-4201-b03b-29d0a1f3b348')
 
@@ -14,7 +14,7 @@ class Mutation(SMCampaign, SMAdSet, SMAd):
     ...
 
 @strawberry.type
-class Query(SQCampaign, SQAdSet):
+class Query(SQCampaign, SQAdSet, SQAd):
     ...
 
 schema = strawberry.federation.Schema( query=Query, mutation=Mutation)

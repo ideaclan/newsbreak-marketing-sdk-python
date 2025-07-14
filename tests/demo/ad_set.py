@@ -161,6 +161,35 @@ class SMAdSet:
             optimization=ad_set.optimization,
             status=ad_set.status
         )
+    
+    @strawberry.mutation
+    async def delete_ad_set(
+        self,
+        ad_set_id: strawberry.ID,
+        ad_account_id: strawberry.ID,
+        campaign_id: strawberry.ID
+    ) -> STAdSet:   
+        ad_set = AdSet(ad_account_id=ad_account_id, campaign_id=campaign_id)
+
+        ad_set = await ad_set.delete(ad_set_id=ad_set_id)
+
+        return STAdSet(
+            id=ad_set.id,
+            name=ad_set.name,
+            org_id=ad_set.org_id,
+            ad_account_id=ad_set.ad_account_id,
+            campaign_id=ad_set.campaign_id,
+            tracking_id=ad_set.tracking_id,
+            budget=ad_set.budget,
+            budget_type=ad_set.budget_type,
+            start_time=ad_set.start_time,
+            end_time=ad_set.end_time,
+            bid_type=ad_set.bid_type,
+            bid_rate=ad_set.bid_rate,
+            delivery_rate=ad_set.delivery_rate,
+            optimization=ad_set.optimization,
+            status=ad_set.status
+        )
 
 
 @strawberry.type

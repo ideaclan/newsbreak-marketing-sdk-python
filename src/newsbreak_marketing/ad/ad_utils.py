@@ -189,7 +189,7 @@ class Ad(APISession):
         
         data = await request('GET', url, self.headers, params=params)
 
-        ad = data['rows'][0]
+        ad = data['list'][0]
 
         return self._maker(ad)
 
@@ -220,7 +220,7 @@ class Ad(APISession):
             name:str,
             type:CreativeType,
             headline:str,
-            asset_ulr:str,
+            asset_url:str,
             description:str,
             call_to_action:str,
             brand_name:str,
@@ -266,7 +266,7 @@ class Ad(APISession):
             "name": name,
             "creative": {
                 "headline": headline,
-                "assetUrl": asset_ulr,
+                "assetUrl": asset_url,
                 "description": description,
                 "callToAction": call_to_action,
                 "brandName": brand_name,
