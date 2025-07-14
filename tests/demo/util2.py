@@ -4,6 +4,8 @@ from newsbreak_marketing.ad_set import Targeting, Gender, GenderType
 from enum import Enum
 import strawberry
 from pydantic import BaseModel
+from pydantic_core import PydanticUndefined
+
 from copy import deepcopy
 
 def instance_model_to_dataclass(instance, dataclass_type):
@@ -36,6 +38,8 @@ def model_to_dataclass(model):
     if get_origin(model) is list:
         item_type = get_args(model)[0]
         return List[model_to_dataclass(item_type)]
+    if get_origin(model) is Union:
+        return Optional[model_to_dataclass(get_args(model)[0])]
     if issubclass(model, Enum):
         return strawberry.enum(model)
     if issubclass(model, BaseModel):
@@ -47,7 +51,7 @@ def model_to_dataclass(model):
 
             _new_field_type = model_to_dataclass(_field_type)
 
-            if _field_default is not None:
+            if _field_default is not PydanticUndefined:
                 _new_default = instance_model_to_dataclass(_field_default, _new_field_type)
                 _data_field = (name, Optional[_new_field_type], field(default_factory=lambda obj=_new_default: obj))
                 # print(f"Field {name} with default {_field_default} converted to {_new_default}")
@@ -56,6 +60,38 @@ def model_to_dataclass(model):
             
             _data_fields.append(_data_field)
         return strawberry.input(make_dataclass(model.__name__, _data_fields))
+    else:
+        raise TypeError(f"{model} is not a valid Pydantic model or type for conversion to dataclass.")
+    
+
+def model_to_dataclass_st_type(model):
+    if model in (int, str, float, bool):
+        return model
+    if get_origin(model) is list:
+        item_type = get_args(model)[0]
+        return List[model_to_dataclass_st_type(item_type)]
+    if get_origin(model) is Union:
+        return Optional[model_to_dataclass_st_type(get_args(model)[0])]
+    if issubclass(model, Enum):
+        return strawberry.enum(model)
+    if issubclass(model, BaseModel):
+        _fields = model.model_fields.items()
+        _data_fields = []
+        for name, _field_info in _fields:
+            _field_type = _field_info.annotation
+            _field_default = _field_info.default
+
+            _new_field_type = model_to_dataclass_st_type(_field_type)
+
+            if _field_default is not PydanticUndefined:
+                _new_default = instance_model_to_dataclass(_field_default, _new_field_type)
+                _data_field = (name, Optional[_new_field_type], field(default_factory=lambda obj=_new_default: obj))
+                # print(f"Field {name} with default {_field_default} converted to {_new_default}")
+            else:
+                _data_field = (name, _new_field_type)
+            
+            _data_fields.append(_data_field)
+        return strawberry.type(make_dataclass(model.__name__, _data_fields))
     else:
         raise TypeError(f"{model} is not a valid Pydantic model or type for conversion to dataclass.")
     

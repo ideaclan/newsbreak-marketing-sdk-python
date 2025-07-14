@@ -3,6 +3,9 @@ import strawberry
 from newsbreak_marketing import Status
 from newsbreak_marketing.campaign import CampaignObjective, CampaignOnlineStatus
 from newsbreak_marketing.ad_set import Targeting, AdSetBudgetType, AdSetBudgetType, AdSetDeliveryRate, AdSetBidType
+from newsbreak_marketing.ad import AdAuditStatus, Creative, CreativeType
+from typing import Optional, List
+from util2 import model_to_dataclass, model_to_dataclass_st_type
 
 
 
@@ -41,3 +44,15 @@ class STAdSet:
     # targeting: strawberry.enum(Targeting) # type: ignore
 
 
+@strawberry.type
+class STAd:
+    id: strawberry.ID
+    name: str
+    campaign_id: strawberry.ID
+    click_tracking_url: Optional[List[str]] = None
+    impression_tracking_url: Optional[List[str]] = None
+    status: strawberry.enum(Status) # type: ignore
+    audit_status: strawberry.enum(AdAuditStatus) # type: ignore
+    status_txt: Optional[str] = None
+    creative: Optional[model_to_dataclass_st_type(Creative)] = None # type: ignore
+    type: Optional[strawberry.enum(CreativeType)] = None # type: ignore

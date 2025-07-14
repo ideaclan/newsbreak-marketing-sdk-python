@@ -21,14 +21,14 @@ class CreativeContent(BaseModel):
     """
     headline: str
     asset_url: str
-    height: Optional[int] = None
-    width: Optional[int] = None
-    cover_url: Optional[str] = None
     description: str
     call_to_action: str
     brand_name: str
-    logo_url: Optional[str] = None
     click_through_url: str
+    height: Optional[int] = None
+    width: Optional[int] = None
+    cover_url: Optional[str] = None
+    logo_url: Optional[str] = None
 
     class Config:
         alias_generator = to_camel

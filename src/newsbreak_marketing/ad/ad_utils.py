@@ -67,6 +67,7 @@ class Ad(APISession):
         self.status_txt = data.get('statusTxt')
         if data.get('creative'):
             self.creative = Creative(**data['creative'])
+            self.type = CreativeType(data['creative']['type'])
         if data.get('type'):
             self.type = CreativeType(data['type'])
 
@@ -77,7 +78,7 @@ class Ad(APISession):
             name:str,
             type:CreativeType,
             headline:str,
-            asset_ulr:str,
+            asset_url:str,
             description:str,
             call_to_action:str,
             brand_name:str,
@@ -123,7 +124,7 @@ class Ad(APISession):
             "adSetId": self.ad_set_id,
             "creative": {
                 "headline": headline,
-                "assetUrl": asset_ulr,
+                "assetUrl": asset_url,
                 "description": description,
                 "callToAction": call_to_action,
                 "brandName": brand_name,

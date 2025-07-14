@@ -3,9 +3,6 @@ from newsbreak_marketing.campaign import Campaign, CampaignObjective
 from newsbreak_marketing import Status
 from schema import STCampaign
 
-@strawberry.input
-class stp:
-    name:str = 'sam'
 
 @strawberry.type
 class SMCampaign:
@@ -14,9 +11,8 @@ class SMCampaign:
     async def create_Campaign(
         self,
         name:str,
-        ad_account_id:str,
+        ad_account_id:strawberry.ID,
         objective:strawberry.enum(CampaignObjective), # type: ignore
-        inp:stp
     )-> STCampaign:
         camp = Campaign(ad_account_id=ad_account_id)
 
@@ -37,8 +33,8 @@ class SMCampaign:
     @strawberry.mutation
     async def update_campaign(
         self,
-        account_id:str,
-        campaign_id:str,
+        account_id:strawberry.ID,
+        campaign_id:strawberry.ID,
         name:str
     )-> STCampaign:
         camp = Campaign(ad_account_id=account_id)
@@ -60,8 +56,8 @@ class SMCampaign:
     @strawberry.mutation
     async def update_campaign_status(
         self,
-        account_id:str,
-        campaign_id:str,
+        account_id:strawberry.ID,
+        campaign_id:strawberry.ID,
         status:strawberry.enum(Status) # type: ignore
     )-> STCampaign:
         camp = Campaign(ad_account_id=account_id)
@@ -86,8 +82,8 @@ class SQCampaign:
     @strawberry.field
     async def get_campaign(
         self,
-        ad_account_id:str,
-        campaign_id:str
+        ad_account_id:strawberry.ID,
+        campaign_id:strawberry.ID
     )-> STCampaign:
         camp = Campaign(ad_account_id)
 

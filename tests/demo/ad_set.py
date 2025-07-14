@@ -19,8 +19,8 @@ class SMAdSet:
     @strawberry.mutation
     async def create_ad_set(
         self,
-        campaign_id: str,
-        ad_account_id: str,
+        campaign_id: strawberry.ID,
+        ad_account_id: strawberry.ID,
         name: str,
         budget_type: BudgetType, # type: ignore
         budget: int,
@@ -74,9 +74,9 @@ class SMAdSet:
     @strawberry.mutation
     async def update_ad_set(
         self,
-        campaign_id: str,
-        ad_account_id: str,
-        ad_set_id: str,
+        campaign_id: strawberry.ID,
+        ad_account_id: strawberry.ID,
+        ad_set_id: strawberry.ID,
         name: str,
         budget_type: BudgetType, # type: ignore
         budget: int,
@@ -132,9 +132,9 @@ class SMAdSet:
     @strawberry.mutation
     async def update_ad_set_status(
         self,
-        ad_set_id: str,
-        ad_account_id: str,
-        campaign_id: str,
+        ad_set_id: strawberry.ID,
+        ad_account_id: strawberry.ID,
+        campaign_id: strawberry.ID,
         status: strawberry.enum(Status) # type: ignore
     ) -> STAdSet:
         ad_set = AdSet(ad_account_id=ad_account_id, campaign_id=campaign_id)
@@ -168,9 +168,9 @@ class SQAdSet:
     @strawberry.field
     async def get_ad_set(
         self,
-        ad_set_id: str,
-        ad_account_id: str,
-        campaign_id: str
+        ad_set_id: strawberry.ID,
+        ad_account_id: strawberry.ID,
+        campaign_id: strawberry.ID
         ) -> STAdSet:
 
         ad_set = AdSet(ad_account_id=ad_account_id, campaign_id=campaign_id)
