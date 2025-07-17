@@ -1,7 +1,7 @@
 import strawberry
 from newsbreak_marketing.ad_set import AdSet, AdSetBudgetType, AdSetBidType, AdSetDeliveryRate, Targeting
 from newsbreak_marketing import Status
-from util2 import model_to_dataclass, print_dataclass_fields_info
+from example.demo.utils import model_to_dataclass, print_dataclass_fields_info
 from typing import Optional
 from dataclasses import asdict
 
@@ -33,6 +33,8 @@ class SMAdSet:
         targeting: Optional[tar]= None, # type: ignore
         optimization: bool = True,
     ) -> STAdSet:
+        #####################################################################################
+        #####################################################################################
         if targeting is None:
             targeting = SMAdSet.tar()
         ad_set = AdSet(campaign_id=campaign_id, ad_account_id=ad_account_id)
@@ -52,6 +54,9 @@ class SMAdSet:
             optimization=optimization,
             targeting=tara
         )
+        #####################################################################################
+        #####################################################################################
+
 
         return STAdSet(
             id=ad_set.id,
@@ -89,6 +94,8 @@ class SMAdSet:
         targeting: Optional[tar] = None, # type: ignore
         optimization: bool = True
     ) -> STAdSet:
+        #####################################################################################
+        #####################################################################################
         if targeting is None:
             targeting = SMAdSet.tar()
         
@@ -110,6 +117,8 @@ class SMAdSet:
             targeting=tara,
             optimization=optimization
         )
+        #####################################################################################
+        #####################################################################################
 
         return STAdSet(
             id=ad_set.id,
@@ -137,12 +146,16 @@ class SMAdSet:
         campaign_id: strawberry.ID,
         status: strawberry.enum(Status) # type: ignore
     ) -> STAdSet:
+        #####################################################################################
+        #####################################################################################
         ad_set = AdSet(ad_account_id=ad_account_id, campaign_id=campaign_id)
 
         ad_set = await ad_set.update_status(
             ad_set_id=ad_set_id,
             status=Status(status.value) # type: ignore
         )
+        #####################################################################################
+        #####################################################################################
 
         return STAdSet(
             id=ad_set.id,
@@ -169,9 +182,13 @@ class SMAdSet:
         ad_account_id: strawberry.ID,
         campaign_id: strawberry.ID
     ) -> STAdSet:   
+        #####################################################################################
+        #####################################################################################
         ad_set = AdSet(ad_account_id=ad_account_id, campaign_id=campaign_id)
 
         ad_set = await ad_set.delete(ad_set_id=ad_set_id)
+        #####################################################################################
+        #####################################################################################
 
         return STAdSet(
             id=ad_set.id,
@@ -201,10 +218,14 @@ class SQAdSet:
         ad_account_id: strawberry.ID,
         campaign_id: strawberry.ID
         ) -> STAdSet:
+        #####################################################################################
+        #####################################################################################
 
         ad_set = AdSet(ad_account_id=ad_account_id, campaign_id=campaign_id)
 
         ad_set = await ad_set.get(ad_set_id=ad_set_id)
+        #####################################################################################
+        #####################################################################################
 
         return STAdSet(
             id=ad_set.id,

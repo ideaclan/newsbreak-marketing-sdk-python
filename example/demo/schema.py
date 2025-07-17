@@ -5,7 +5,7 @@ from newsbreak_marketing.campaign import CampaignObjective, CampaignOnlineStatus
 from newsbreak_marketing.ad_set import Targeting, AdSetBudgetType, AdSetBudgetType, AdSetDeliveryRate, AdSetBidType
 from newsbreak_marketing.ad import AdAuditStatus, Creative, CreativeType
 from typing import Optional, List
-from util2 import model_to_dataclass, model_to_dataclass_st_type
+from example.demo.utils import model_to_dataclass, model_to_dataclass_st_type
 
 
 

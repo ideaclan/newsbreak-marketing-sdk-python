@@ -27,7 +27,8 @@ class SMAd:
         click_tracking_url: Optional[List[str]] = None,
         impression_tracking_url: Optional[List[str]] = None,
     ) -> STAd:
-        
+        #####################################################################################
+        #####################################################################################
         ad = Ad(ad_account_id=ad_account_id, ad_set_id=ad_set_id)
 
         ad = await ad.create(
@@ -46,7 +47,8 @@ class SMAd:
             click_tracking_url=click_tracking_url,
             impression_tracking_url=impression_tracking_url
         )
-
+        #####################################################################################
+        #####################################################################################
         return STAd(
             id=ad.id,  # type: ignore
             name=ad.name,  # type: ignore
@@ -81,7 +83,8 @@ class SMAd:
         click_tracking_url: Optional[List[str]] = None,
         impression_tracking_url: Optional[List[str]] = None,
     ) -> STAd:
-        
+        #####################################################################################
+        #####################################################################################
         ad = Ad(ad_account_id=ad_account_id, ad_set_id=ad_set_id)
 
         ad = await ad.update(
@@ -101,7 +104,8 @@ class SMAd:
             click_tracking_url=click_tracking_url,
             impression_tracking_url=impression_tracking_url
         )
-
+        #####################################################################################
+        #####################################################################################
         return STAd(
             id=ad.id,  # type: ignore
             name=ad.name,  # type: ignore
@@ -123,14 +127,16 @@ class SMAd:
         ad_set_id: strawberry.ID,
         status: strawberry.enum(Status)  # type: ignore
     ) -> STAd:
-        
+        #####################################################################################
+        #####################################################################################
         ad = Ad(ad_account_id=ad_account_id, ad_set_id=ad_set_id)
 
         ad = await ad.update_status(
             ad_id=ad_id,
             status=status
         )
-
+        #####################################################################################
+        #####################################################################################
         return STAd(
             id=ad.id,  # type: ignore
             name=ad.name,  # type: ignore
@@ -151,11 +157,13 @@ class SMAd:
         ad_account_id: strawberry.ID,
         ad_set_id: strawberry.ID
     ) -> STAd:
-        
+        #####################################################################################
+        #####################################################################################
         ad = Ad(ad_account_id=ad_account_id, ad_set_id=ad_set_id)
 
         ad = await ad.delete(ad_id=ad_id)
-
+        #####################################################################################
+        #####################################################################################
         return STAd(
             id=ad.id,  # type: ignore
             name=ad.name,  # type: ignore
@@ -180,11 +188,13 @@ class SQAd:
         ad_account_id: strawberry.ID,
         ad_set_id: strawberry.ID
     ) -> STAd:
-        
+        #####################################################################################
+        #####################################################################################
         ad = Ad(ad_account_id=ad_account_id, ad_set_id=ad_set_id)
 
         ad = await ad.get(ad_id=ad_id)
-
+        #####################################################################################
+        #####################################################################################
         return STAd(
             id=ad.id,  # type: ignore
             name=ad.name,  # type: ignore
